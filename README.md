@@ -5,5 +5,7 @@ for educational use only. ;)
 
 `python railfence.py "ENCRYPTED TEST"`
 
+Python 2 only
+
 [Rail Fence cipher](https://en.wikipedia.org/wiki/Rail_fence_cipher)
 is a super weak cipher.
