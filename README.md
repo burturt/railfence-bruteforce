@@ -1,7 +1,5 @@
 # railfence
-a simple python implementation of the Rail Fence cipher (with offset support)
-
-for educational use only. ;)
+a simple python implementation of the Rail Fence cipher that bruteforces the rail count and offset.
 
 `python railfence.py "ENCRYPTED TEST"`
 
