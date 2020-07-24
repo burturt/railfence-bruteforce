@@ -1,4 +1,3 @@
-#!/usr/bin/env python2
 #
 # rail fence cipher implementation with optional offset feature
 #
@@ -10,7 +9,7 @@
 
 def printFence(fence):
     for rail in range(len(fence)):
-        print ''.join(fence[rail])
+        print(''.join(fence[rail]))
 
 
 def encryptFence(plain, rails, offset=0, debug=False):
@@ -96,15 +95,15 @@ if __name__ == "__main__":
     # DONT CHANGE THIS
 
     if len(sys.argv) != 2:
-        print("Usage: python " + sys.argv[0] + " [ciphertext]")
+        print("Usage: python3 " + sys.argv[0] + " [ciphertext]")
         print("You may need to use quotes around the ciphertext if it contains spaces")
         exit(1)
     ciphertext = sys.argv[1]
     print("-----------------------------")
-    print "Brute forcing all rails and offsets:"
+    print("Brute forcing all rails and offsets:")
 
-    print(rails)
-    print(offsets)
+    print(list(rails))
+    print(print(offsets))
     for i in rails:
         for j in offsets:
-            print decryptFence(ciphertext, i, offset=j, debug=False)
+            print(decryptFence(ciphertext, i, offset=j, debug=False))
