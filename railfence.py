@@ -103,7 +103,7 @@ if __name__ == "__main__":
     print("Brute forcing all rails and offsets:")
 
     print(list(rails))
-    print(print(offsets))
+    print(list(offsets))
     for i in rails:
         for j in offsets:
             print(decryptFence(ciphertext, i, offset=j, debug=False))
