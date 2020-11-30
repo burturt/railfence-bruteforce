@@ -9,3 +9,5 @@ If you know any of the plaintext (e.g. "flag") I highly recommend doing `python3
 
 [Rail Fence cipher](https://en.wikipedia.org/wiki/Rail_fence_cipher)
 is a super weak cipher.
+
+https://repl.it/@burturt/railfence-bruteforce
