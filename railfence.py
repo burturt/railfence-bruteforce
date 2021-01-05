@@ -97,13 +97,13 @@ if __name__ == "__main__":
     if len(sys.argv) != 2:
         print("Usage: python3 " + sys.argv[0] + " [ciphertext]")
         print("You may need to use quotes around the ciphertext if it contains spaces")
-        exit(1)
-    ciphertext = sys.argv[1]
-    print("-----------------------------")
-    print("Brute forcing all rails and offsets:")
+    else:
+        ciphertext = sys.argv[1]
+        print("-----------------------------")
+        print("Brute forcing all rails and offsets:")
 
-    print(list(rails))
-    print(list(offsets))
-    for i in rails:
-        for j in offsets:
-            print(decryptFence(ciphertext, i, offset=j, debug=False))
+        print(list(rails))
+        print(list(offsets))
+        for i in rails:
+            for j in offsets:
+                print(decryptFence(ciphertext, i, offset=j, debug=False))
