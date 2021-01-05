@@ -1,0 +1,96 @@
+# Compiles python into executable files for macos, linux, and windows
+
+name: Compile python to binary
+
+on:
+  push:
+    branches: [ master ]
+  schedule:
+  - cron: "47 22 4 * *"
+
+
+jobs:
+  build:
+
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+    - name: Install dependencies
+      run: |
+        pip install pyinstaller
+    - name: Run pyinstaller
+      run: |
+        pyinstaller --onefile railfence.py
+    - uses: actions/upload-artifact@v2
+      with:
+        name: railfence-${{ runner.os }}
+        path: dist/**
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: AUTO-${{ github.run_number }}
+          release_name: "[AUTO] Build ${{ github.run_number }}"
+          body: |
+            New build!
+            Check out https://github.com/burturt/railfence-bruteforce/commits/master to see changes
+            If you want to run the program yourself, download one of the files under "Assets" with the name of your operating system.
+            You will need to run the binary from the command line.
+          draft: false
+          prerelease: false
+      - uses: actions/download-artifact@v2
+        name: Download artifacts
+      - name: Display structure of downloaded files
+        run: ls -R
+      - name: Zip artifacts
+        run: |
+          chmod +x railfence-Linux/railfence
+          chmod +x railfence-macOS/railfence
+          zip -r railfence-Linux-${{ github.run_number }}.zip railfence-Linux
+          zip -r railfence-Windows-${{ github.run_number }}.zip railfence-Windows
+          zip -r railfence-MacOS-${{ github.run_number }}.zip railfence-macOS
+      - name: Upload Linux Build
+        id: upload-linux
+        uses: actions/upload-release-asset@v1 
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: railfence-Linux-${{ github.run_number }}.zip
+          asset_name: railfence-Linux-${{ github.run_number }}.zip
+          asset_content_type: application/zip
+      - name: Upload Windows Build
+        id: upload-windows
+        uses: actions/upload-release-asset@v1 
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: railfence-Windows-${{ github.run_number }}.zip
+          asset_name: railfence-Windows-${{ github.run_number }}.zip
+          asset_content_type: application/zip
+          
+      - name: Upload MacOS Build
+        id: upload-macos
+        uses: actions/upload-release-asset@v1 
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: railfence-MacOS-${{ github.run_number }}.zip
+          asset_name: railfence-MacOS-${{ github.run_number }}.zip
+          asset_content_type: application/zip
