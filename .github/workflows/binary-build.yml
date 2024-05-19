@@ -5,8 +5,7 @@ name: Compile python to binary
 on:
   push:
     branches: [ master ]
-  schedule:
-  - cron: "47 22 4 * *"
+  
 
 
 jobs:
